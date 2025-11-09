@@ -1,27 +1,23 @@
 version: 0.2
-
 phases:
   install:
     runtime-versions:
-      nodejs: 20
+      nodejs: 18
     commands:
-      - echo Installing dependencies...
+      - echo "Installing dependencies..."
       - npm install
-      - chmod +x ./node_modules/.bin/*
-  
+      - chmod +x node_modules/.bin/vite   # ✅ Fix for vite permission issue
   build:
     commands:
-      - echo Building Vite React app...
+      - echo "Building React (Vite) app..."
       - npm run build
-  
   post_build:
     commands:
-      - echo Build completed. Preparing artifacts...
-      # Verify the dist directory was created
-      - ls -la
-
+      - echo "✅ Build complete. Preparing for deployment."
 artifacts:
   files:
     - '**/*'
-  base-directory: 'dist'  # This will be created by Vite during build
-  discard-paths: no
+  base-directory: dist
+cache:
+  paths:
+    - node_modules/**/*
